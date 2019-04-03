@@ -1,11 +1,10 @@
 package com.study.jooq.model;
 
-import com.mysql.jdbc.StringUtils;
 import com.study.jooq.base.utils.ScopedContext;
 import com.study.jooq.common.generated.Tables;
+import com.study.jooq.common.generated.tables.Order;
 import com.study.jooq.common.generated.tables.User;
 import com.study.jooq.common.generated.tables.records.UserRecord;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.junit.Before;
@@ -105,6 +104,32 @@ public class MyTest {
                 fetch();
 
         log.info(recordResult.format());
+
+    }
+
+
+    /**
+     * 动态sql3
+     */
+    @Test
+    public void dynmaicSql3(){
+
+        User USER = User.USER;
+
+        SelectQuery<Record> query = dslContext.selectQuery();
+
+//        query.
+
+        query.addFrom(USER);
+
+        query.addJoin(Order.ORDER,Order.ORDER.UID.equal(USER.UID));
+
+        query.addConditions(USER.NAME.like("%李%"));
+
+        Result<Record> recordResult = query.fetch();
+
+        log.info(recordResult.format());
+
 
     }
 
